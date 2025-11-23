@@ -16,17 +16,21 @@ export default function Header() {
   return (
     <header className="w-full border-b border-gray-200 dark:border-white/10 bg-white dark:bg-fairfax-dark transition-colors duration-200 sticky top-0 z-50 print:hidden">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="p-2 rounded-full bg-primary/10 dark:bg-white/10 group-hover:bg-primary/20 dark:group-hover:bg-white/20 transition-colors">
-            <Home className="w-6 h-6 text-primary dark:text-white" />
+        <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="p-2 rounded-full bg-primary/10 dark:bg-white/10 group-hover:bg-primary/20 dark:group-hover:bg-white/20 transition-colors">
+              <Home className="w-6 h-6 text-primary dark:text-white" />
+            </div>
+          </Link>
+          <div className="flex flex-col">
+            <Link href="/" className="font-bold text-xl text-gray-900 dark:text-gray-100 hover:text-primary dark:hover:text-blue-300 transition-colors">
+              Fairfax County Services Finder
+            </Link>
+            <span className="text-sm text-gray-500 dark:text-gray-400 font-normal leading-none">
+              Not affiliated with or endorsed by Fairfax County
+            </span>
           </div>
-          <span className="font-bold text-xl text-gray-900 dark:text-gray-100">
-            Fairfax County Housing Helper
-          </span>
-          <span className="font-bold text-m text-gray-900 dark:text-gray-100">
-            Not affiliated with or endorsed by Fairfax County
-          </span>
-        </Link>
+        </div>
 
         <nav className="flex items-center gap-6">
           <Link 

@@ -1,0 +1,101 @@
+[
+  {
+    "title": "Community Housing Partners Energy Solutions",
+    "organization": "Community Housing Partners",
+    "categories": ["Home Repairs", "Financial Aid"],
+    "description": "No-cost home weatherization and energy efficiency upgrades including insulation, HVAC, LED lighting, air/duct sealing to reduce utility bills.",
+    "phone": "1-888-229-3714",
+    "email": "chpenergysolutions@chpc2.org",
+    "website": "www.communityhousingpartners.org/energy-solutions/"
+  },
+  {
+    "title": "Habitat for Humanity DC-NOVA Home Repair",
+    "organization": "Habitat for Humanity of Washington DC and Northern VA",
+    "categories": ["Home Repairs"],
+    "description": "Partners with TruBlue to provide repairs for low-income seniors to age safely in place or address home hazards. Up to $2,500 in repairs.",
+    "phone": "703-656-1028",
+    "email": "homerepairprogram@habitatdcnova.org",
+    "website": "www.habitatdcnova.org/what-we-do/home-repair/"
+  },
+  {
+    "title": "Rebuilding Together - AFF",
+    "organization": "Rebuilding Together - AFF",
+    "categories": ["Home Repairs", "Accessibility Improvements"],
+    "description": "Free health, safety repairs and accessibility modifications for low/moderate-income homeowners including ramps, stairlifts, appliances, HVAC.",
+    "phone": "703-528-1999",
+    "email": "info@rebuildingtogether-aff.org",
+    "website": "www.rebuildingtogether-aff.org"
+  },
+  {
+    "title": "Energy Assistance Program",
+    "organization": "Virginia Department of Social Services",
+    "categories": ["Financial Aid"],
+    "description": "Helps with heating costs, heating emergencies, security deposits, heating equipment repair/replacement, and cooling assistance for eligible households.",
+    "phone": "1-855-635-4370",
+    "email": "",
+    "website": "www.commonhelp.virginia.gov/access"
+  },
+  {
+    "title": "Virginia Housing Accessibility Grants",
+    "organization": "Virginia Housing",
+    "categories": ["Accessibility Improvements", "Financial Aid"],
+    "description": "Up to $8,000 for accessibility projects: ramps, chairlifts, remote entry devices, bathroom/kitchen modifications, widening doorways/sidewalks.",
+    "phone": "1-800-828-1140",
+    "email": "",
+    "website": "www.virginiahousing.com/accessibility-grants"
+  },
+  {
+    "title": "Virginia Livable Home Tax Credit",
+    "organization": "Virginia Department of Housing and Community Development",
+    "categories": ["Accessibility Improvements", "Financial Aid"],
+    "description": "State tax credits up to $6,500 for purchasing/constructing accessible residences or up to 50% cost (max $6,500) for retrofitting existing units.",
+    "phone": "1-804-371-7124",
+    "email": "hsnh@dhcd.virginia.gov",
+    "website": "www.dhcd.virginia.gov/lhtc"
+  },
+  {
+    "title": "Fairfax County Universal Design Permitting",
+    "organization": "Fairfax County",
+    "categories": ["Accessibility Improvements"],
+    "description": "Assists with permitting for Universal Design modifications to make your home fit your life at every stage and situation.",
+    "phone": "703-324-1528",
+    "email": "",
+    "website": "www.fairfaxcounty.gov/familyservices/universal-design"
+  },
+  {
+    "title": "Fairfax County Manufactured Home Repair Program",
+    "organization": "Good Shepherd Housing and Family Services, Inc",
+    "categories": ["Home Repairs", "Financial Aid"],
+    "description": "Up to $10,000 for essential repairs for low/moderate-income manufactured homeowners at Harmony Place earning up to 80% AMI.",
+    "phone": "",
+    "email": "MHRepairs@goodhousing.org",
+    "website": ""
+  },
+  {
+    "title": "Shepherd's Center of Fairfax-Burke Handy Helpers",
+    "organization": "Shepherd's Center of Fairfax-Burke",
+    "categories": ["Home Repairs"],
+    "description": "Free minor home repairs and limited yard work for older adults. Client provides materials and supplies. Serves Fairfax, Burke, and South County.",
+    "phone": "703-323-4788",
+    "email": "info@scfbva.org",
+    "website": "www.scfbva.org"
+  },
+  {
+    "title": "Shepherd's Center of McLean-Arlington-Falls Church Handy Helpers",
+    "organization": "Shepherd's Center of McLean-Arlington-Falls Church",
+    "categories": ["Home Repairs"],
+    "description": "Volunteers assist with basic household chores like changing light bulbs, hanging pictures, or light yard work for older adults.",
+    "phone": "703-506-2199",
+    "email": "contact@scmafc.org",
+    "website": "www.scmafc.org/services"
+  },
+  {
+    "title": "Shepherd's Center of Northern Virginia Handy Helpers",
+    "organization": "Shepherd's Center of Northern Virginia",
+    "categories": ["Home Repairs"],
+    "description": "Free minor home repairs and limited yard work for older adults in Oakton-Vienna-Reston-Herndon-Great Falls. Client provides materials.",
+    "phone": "703-260-9568",
+    "email": "office@scnova.org",
+    "website": "www.scnova.org/services/services-minor-home-repairs"
+  }
+]

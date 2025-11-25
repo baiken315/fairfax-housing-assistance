@@ -1,8 +1,9 @@
 "use client";
 
-import { X, Phone, Mail, Globe, Calendar, Building2, Edit, Loader2 } from "lucide-react";
+import { X, Phone, Mail, Globe, Calendar, Building2, Edit, Loader2, Trash2 } from "lucide-react";
 import { Service } from "@/lib/db";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import ServiceForm from "./ServiceForm";
 
 interface ServiceModalProps {
@@ -12,20 +13,45 @@ interface ServiceModalProps {
 }
 
 export default function ServiceModal({ service, isOpen, onClose }: ServiceModalProps) {
+  const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isDeleteSubmitting, setIsDeleteSubmitting] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
-      setIsEditing(false); // Reset edit mode when closed
+      setIsEditing(false);
+      setIsDeleting(false);
     }
     return () => {
       document.body.style.overflow = 'unset';
     };
   }, [isOpen]);
+
+  async function handleDelete() {
+    setIsDeleteSubmitting(true);
+    try {
+      const response = await fetch(`/api/services/${service.id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete service');
+      }
+
+      onClose();
+      router.refresh();
+    } catch (error) {
+      console.error('Error deleting service:', error);
+      alert('Failed to delete service. Please try again.');
+    } finally {
+      setIsDeleteSubmitting(false);
+    }
+  }
 
   if (!isOpen) return null;
 
@@ -170,13 +196,44 @@ export default function ServiceModal({ service, isOpen, onClose }: ServiceModalP
                 <Calendar className="w-4 h-4" />
                 <span>Posted {new Date(service.created_at).toLocaleDateString()}</span>
               </div>
-              <button
-                onClick={() => setIsEditing(true)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-md text-primary hover:bg-primary/10 transition-colors font-medium text-sm"
-              >
-                <Edit className="w-4 h-4" />
-                Edit Service
-              </button>
+              
+              {isDeleting ? (
+                <div className="flex items-center gap-2 animate-fadeIn">
+                  <span className="text-sm font-medium text-red-600 dark:text-red-400 mr-1">Are you sure?</span>
+                  <button
+                    onClick={() => setIsDeleting(false)}
+                    className="px-3 py-1.5 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/10 transition-colors text-sm font-medium"
+                    disabled={isDeleteSubmitting}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleDelete}
+                    className="px-3 py-1.5 rounded-md bg-red-600 hover:bg-red-700 text-white transition-colors text-sm font-medium flex items-center gap-2"
+                    disabled={isDeleteSubmitting}
+                  >
+                    {isDeleteSubmitting && <Loader2 className="w-3 h-3 animate-spin" />}
+                    {isDeleteSubmitting ? "Deleting..." : "Yes, Delete"}
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setIsDeleting(true)}
+                    className="p-2 rounded-md text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 dark:text-gray-400 dark:hover:text-red-400 transition-colors"
+                    title="Delete Service"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => setIsEditing(true)}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-md text-primary hover:bg-primary/10 transition-colors font-medium text-sm"
+                  >
+                    <Edit className="w-4 h-4" />
+                    Edit Service
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { X, Phone, Mail, Globe, Calendar, Building2, Edit } from "lucide-react";
+import { X, Phone, Mail, Globe, Calendar, Building2, Edit, Loader2 } from "lucide-react";
 import { Service } from "@/lib/db";
 import { useEffect, useState } from "react";
 import ServiceForm from "./ServiceForm";
@@ -13,6 +13,7 @@ interface ServiceModalProps {
 
 export default function ServiceModal({ service, isOpen, onClose }: ServiceModalProps) {
   const [isEditing, setIsEditing] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
@@ -35,8 +36,8 @@ export default function ServiceModal({ service, isOpen, onClose }: ServiceModalP
         onClick={(e) => e.stopPropagation()}
       >
         {isEditing ? (
-          <div className="flex flex-col h-full">
-            <div className="p-6 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5 flex justify-between items-center">
+          <div className="flex flex-col h-full min-h-0">
+            <div className="p-6 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5 flex justify-between items-center shrink-0">
               <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Edit Service</h2>
               <button
                 onClick={() => setIsEditing(false)}
@@ -45,16 +46,31 @@ export default function ServiceModal({ service, isOpen, onClose }: ServiceModalP
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="p-6 pb-8 overflow-y-auto">
+            <div className="p-6 overflow-y-auto flex-1 min-h-0">
               <ServiceForm 
                 initialData={service} 
                 onSuccess={() => setIsEditing(false)}
                 variant="modal"
+                hideSubmitButton={true}
+                id="edit-service-form"
+                onSubmitStart={() => setIsSubmitting(true)}
+                onSubmitEnd={() => setIsSubmitting(false)}
               />
+            </div>
+            <div className="p-4 border-t border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5 flex justify-end shrink-0 bg-white dark:bg-[#0b2540]">
+              <button
+                type="submit"
+                form="edit-service-form"
+                disabled={isSubmitting}
+                className="px-4 py-2 rounded-md bg-primary hover:bg-primary-hover text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
+                {isSubmitting ? "Updating..." : "Submit Edit"}
+              </button>
             </div>
           </div>
         ) : (
-          <>
+          <div className="flex flex-col h-full min-h-0">
             {/* Header */}
             <div className="p-6 border-b border-gray-100 dark:border-white/5 bg-gray-50/50 dark:bg-white/5">
               <div className="flex justify-between items-start">
@@ -162,7 +178,7 @@ export default function ServiceModal({ service, isOpen, onClose }: ServiceModalP
                 Edit Service
               </button>
             </div>
-          </>
+          </div>
         )}
       </div>
     </div>

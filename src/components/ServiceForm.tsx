@@ -22,9 +22,21 @@ interface ServiceFormProps {
   initialData?: Service;
   onSuccess?: () => void;
   variant?: 'default' | 'modal';
+  hideSubmitButton?: boolean;
+  id?: string;
+  onSubmitStart?: () => void;
+  onSubmitEnd?: () => void;
 }
 
-export default function ServiceForm({ initialData, onSuccess, variant = 'default' }: ServiceFormProps) {
+export default function ServiceForm({ 
+  initialData, 
+  onSuccess, 
+  variant = 'default',
+  hideSubmitButton = false,
+  id = 'service-form',
+  onSubmitStart,
+  onSubmitEnd
+}: ServiceFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -42,6 +54,7 @@ export default function ServiceForm({ initialData, onSuccess, variant = 'default
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
+    if (onSubmitStart) onSubmitStart();
     setError(null);
 
     const formData = new FormData(event.currentTarget);
@@ -103,6 +116,7 @@ export default function ServiceForm({ initialData, onSuccess, variant = 'default
       console.error(err);
     } finally {
       setIsSubmitting(false);
+      if (onSubmitEnd) onSubmitEnd();
     }
   }
 
@@ -111,7 +125,7 @@ export default function ServiceForm({ initialData, onSuccess, variant = 'default
     : "bg-white dark:bg-[#0b2540] rounded-lg border border-gray-200 dark:border-white/10 p-6 shadow-sm";
 
   return (
-    <form onSubmit={handleSubmit} className={`space-y-6 max-w-2xl mx-auto ${variant === 'modal' ? 'w-full' : ''}`}>
+    <form id={id} onSubmit={handleSubmit} className={`space-y-6 max-w-2xl mx-auto ${variant === 'modal' ? 'w-full' : ''}`}>
       <div className={containerClasses}>
         <div className="space-y-4">
           {/* Title & Organization */}
@@ -236,16 +250,18 @@ export default function ServiceForm({ initialData, onSuccess, variant = 'default
           </div>
         )}
 
-        <div className="mt-6 flex justify-end">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="px-4 py-2 rounded-md bg-primary hover:bg-primary-hover text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-          >
-            {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
-            {isSubmitting ? (initialData ? "Updating..." : "Submitting...") : (initialData ? "Submit Edit" : "Submit Service")}
-          </button>
-        </div>
+        {!hideSubmitButton && (
+          <div className="mt-6 flex justify-end">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="px-4 py-2 rounded-md bg-primary hover:bg-primary-hover text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
+              {isSubmitting ? (initialData ? "Updating..." : "Submitting...") : (initialData ? "Submit Edit" : "Submit Service")}
+            </button>
+          </div>
+        )}
       </div>
     </form>
   );

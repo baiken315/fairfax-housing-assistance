@@ -14,12 +14,17 @@ export default function ServiceCard({ service }: { service: Service }) {
       <div className="bg-white dark:bg-[#0b2540] rounded-lg border border-gray-200 dark:border-white/10 p-6 hover:shadow-lg transition-shadow duration-200 animate-fadeIn flex flex-col h-full">
         <div className="flex justify-between items-start mb-3">
           <div className="w-full">
-            <Link 
-              href={`/?category=${encodeURIComponent(service.category)}`}
-              className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary dark:bg-blue-500/20 dark:text-blue-200 mb-3 hover:bg-primary/20 dark:hover:bg-blue-500/30 transition-colors"
-            >
-              {service.category}
-            </Link>
+            <div className="flex flex-wrap gap-2 mb-3">
+              {service.categories.map((category) => (
+                <Link 
+                  key={category}
+                  href={`/?category=${encodeURIComponent(category)}`}
+                  className="inline-block px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary dark:bg-blue-500/20 dark:text-blue-200 hover:bg-primary/20 dark:hover:bg-blue-500/30 transition-colors"
+                >
+                  {category}
+                </Link>
+              ))}
+            </div>
             <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1 line-clamp-1">
               {service.title}
             </h3>
@@ -81,4 +86,5 @@ export default function ServiceCard({ service }: { service: Service }) {
     </>
   );
 }
+
 

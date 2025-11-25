@@ -3,15 +3,13 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Fairfax Housing Helper",
-  description: "Find and submit housing assistance services in Fairfax County",
+  description: "Find housing assistance and support services in Fairfax County",
 };
 
 export default function RootLayout({
@@ -21,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans antialiased bg-background text-foreground min-h-screen flex flex-col`}>
+      <body className={`${inter.className} antialiased bg-background text-foreground min-h-screen flex flex-col`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -32,6 +30,7 @@ export default function RootLayout({
           <main className="flex-1">
             {children}
           </main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

@@ -25,7 +25,13 @@ export default function PrintView({ services }: { services: Service[] }) {
                 <div className="text-gray-600 text-sm">{service.organization}</div>
               </td>
               <td className="py-4 pr-4 align-top text-black">
-                {service.category}
+                <div className="flex flex-wrap gap-1">
+                  {service.categories.map((cat, idx) => (
+                    <span key={idx} className="bg-gray-100 px-2 py-0.5 rounded text-xs border border-gray-200">
+                      {cat}
+                    </span>
+                  ))}
+                </div>
               </td>
               <td className="py-4 pr-4 align-top text-sm">
                 {service.phone && (

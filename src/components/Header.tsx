@@ -24,7 +24,7 @@ export default function Header() {
           </Link>
           <div className="flex flex-col">
             <Link href="/" className="font-bold text-xl text-gray-900 dark:text-gray-100 hover:text-primary dark:hover:text-blue-300 transition-colors">
-              Fairfax County Services Finder
+              Fairfax County Housing Helper
             </Link>
             <span className="text-sm text-gray-500 dark:text-gray-400 font-normal leading-none">
               Not affiliated with or endorsed by Fairfax County

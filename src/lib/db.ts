@@ -12,7 +12,7 @@ export type Service = {
   title: string;
   organization: string;
   description: string;
-  category: string;
+  categories: string[];
   phone?: string;
   email?: string;
   website?: string;
@@ -21,13 +21,13 @@ export type Service = {
 
 export async function getServices(search?: string, category?: string): Promise<Service[]> {
   if (!process.env.DATABASE_URL) {
-    const mockData = [
+    const mockData: Service[] = [
       {
         id: 1,
         title: "Free Home Repair Services",
         organization: "Community Fix-It Corp",
         description: "We provide free minor home repairs for seniors and low-income families, focusing on safety and accessibility improvements.",
-        category: "Home Repairs",
+        categories: ["Home Repairs"],
         phone: "555-0123",
         email: "help@fixit.org",
         website: "https://fixit.org",
@@ -38,7 +38,7 @@ export async function getServices(search?: string, category?: string): Promise<S
         title: "Hoarding Cleanup Assistance",
         organization: "Safe Space Solutions",
         description: "Professional and compassionate hoarding cleanout services. We help reclaim your living space with non-judgmental support.",
-        category: "Hoarding Cleanout",
+        categories: ["Hoarding Cleanout", "Decluttering"],
         phone: "555-0199",
         website: "https://safespace.com",
         created_at: new Date(Date.now() - 86400000)
@@ -48,7 +48,7 @@ export async function getServices(search?: string, category?: string): Promise<S
         title: "Accessibility Ramp Installation",
         organization: "Access For All",
         description: "Volunteer-led installation of wheelchair ramps for residential homes. Materials provided at no cost for qualifying residents.",
-        category: "Accessibility Improvements",
+        categories: ["Accessibility Improvements"],
         email: "contact@accessforall.org",
         created_at: new Date(Date.now() - 172800000)
       }
@@ -60,7 +60,7 @@ export async function getServices(search?: string, category?: string): Promise<S
         service.description.toLowerCase().includes(search.toLowerCase()) ||
         service.organization.toLowerCase().includes(search.toLowerCase());
       
-      const matchesCategory = !category || service.category === category;
+      const matchesCategory = !category || service.categories.includes(category);
 
       return matchesSearch && matchesCategory;
     });
@@ -79,7 +79,8 @@ export async function getServices(search?: string, category?: string): Promise<S
     }
 
     if (category) {
-      query += ` AND category = $${paramCount}`;
+      // Check if the category exists in the categories array
+      query += ` AND $${paramCount} = ANY(categories)`;
       params.push(category);
       paramCount++;
     }

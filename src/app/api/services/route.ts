@@ -18,11 +18,11 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { title, organization, description, category, phone, email, website } = body;
+    const { title, organization, description, categories, phone, email, website } = body;
 
-    if (!title || !organization || !description || !category) {
+    if (!title || !organization || !description || !categories || !Array.isArray(categories) || categories.length === 0) {
       return NextResponse.json(
-        { error: 'Missing required fields: title, organization, description, category' },
+        { error: 'Missing required fields: title, organization, description, categories (must be non-empty array)' },
         { status: 400 }
       );
     }
@@ -44,8 +44,8 @@ export async function POST(request: Request) {
     const client = await pool.connect();
     try {
       const result = await client.query(
-        'INSERT INTO services (title, organization, description, category, phone, email, website) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-        [title, organization, description, category, phone, email, website]
+        'INSERT INTO services (title, organization, description, categories, phone, email, website) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+        [title, organization, description, categories, phone, email, website]
       );
       return NextResponse.json(result.rows[0]);
     } finally {
@@ -59,4 +59,5 @@ export async function POST(request: Request) {
     );
   }
 }
+
 

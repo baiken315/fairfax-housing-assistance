@@ -3,15 +3,14 @@
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { Moon, Sun, Home } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+const subscribe = () => () => {};
 
 export default function Header() {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // false during SSR/hydration, true on the client afterwards
+  const mounted = useSyncExternalStore(subscribe, () => true, () => false);
 
   return (
     <header className="w-full border-b border-gray-200 dark:border-white/10 bg-white dark:bg-fairfax-dark transition-colors duration-200 sticky top-0 z-50 print:hidden">

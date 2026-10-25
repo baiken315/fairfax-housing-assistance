@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db';
 import { getServices } from '@/lib/db';
+import { throttleWrites } from '@/lib/rateLimit';
+import { readJsonBody, validateService } from '@/lib/validation';
 
 export async function GET() {
   try {
@@ -17,22 +19,14 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { title, organization, description, categories, phone, email, website } = body;
+    const limited = throttleWrites(request);
+    if (limited) return limited;
 
-    if (!title || !organization || !description || !categories || !Array.isArray(categories) || categories.length === 0) {
-      return NextResponse.json(
-        { error: 'Missing required fields: title, organization, description, categories (must be non-empty array)' },
-        { status: 400 }
-      );
+    const validated = validateService(await readJsonBody(request));
+    if (!validated.ok) {
+      return NextResponse.json({ error: validated.error }, { status: 400 });
     }
-
-    if (!phone && !email && !website) {
-      return NextResponse.json(
-        { error: 'At least one contact method (phone, email, or website) is required' },
-        { status: 400 }
-      );
-    }
+    const { title, organization, description, categories, phone, email, website } = validated.data;
 
     if (!process.env.DATABASE_URL) {
        return NextResponse.json(

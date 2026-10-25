@@ -4,8 +4,7 @@ import { useState } from "react";
 import { Service } from "@/lib/db";
 import ServiceCard from "./ServiceCard";
 import ServiceModal from "./ServiceModal";
-import { LayoutGrid, List as ListIcon, Phone, Mail, Globe, Building2 } from "lucide-react";
-import Link from "next/link";
+import { LayoutGrid, List as ListIcon, Phone, Mail, Building2 } from "lucide-react";
 
 interface ServiceListProps {
   services: Service[];

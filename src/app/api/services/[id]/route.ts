@@ -1,29 +1,26 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db';
+import { throttleWrites } from '@/lib/rateLimit';
+import { parseId, readJsonBody, validateService } from '@/lib/validation';
 
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = (await params).id;
-    const body = await request.json();
-    const { title, organization, description, categories, phone, email, website } = body;
+    const limited = throttleWrites(request);
+    if (limited) return limited;
 
-    // Validation similar to POST
-    if (!title || !organization || !description || !categories || !Array.isArray(categories) || categories.length === 0) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+    const id = parseId((await params).id);
+    if (id === null) {
+      return NextResponse.json({ error: 'Invalid service id' }, { status: 400 });
     }
 
-    if (!phone && !email && !website) {
-      return NextResponse.json(
-        { error: 'At least one contact method is required' },
-        { status: 400 }
-      );
+    const validated = validateService(await readJsonBody(request));
+    if (!validated.ok) {
+      return NextResponse.json({ error: validated.error }, { status: 400 });
     }
+    const { title, organization, description, categories, phone, email, website } = validated.data;
 
     if (!process.env.DATABASE_URL) {
        return NextResponse.json(
@@ -73,7 +70,13 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = (await params).id;
+    const limited = throttleWrites(request);
+    if (limited) return limited;
+
+    const id = parseId((await params).id);
+    if (id === null) {
+      return NextResponse.json({ error: 'Invalid service id' }, { status: 400 });
+    }
 
     if (!process.env.DATABASE_URL) {
        return NextResponse.json(

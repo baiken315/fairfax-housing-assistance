@@ -3,20 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Check } from "lucide-react";
-import { Service } from "@/lib/db";
+import type { Service } from "@/lib/db";
+import { CATEGORIES, LIMITS } from "@/lib/validation";
 
-const CATEGORIES = [
-  "Home Repairs",
-  "Hoarding Cleanout",
-  "Hazmat Cleaning",
-  "Decluttering",
-  "Accessibility Improvements",
-  "Financial Aid",
-  "Food & Supplies",
-  "Legal Aid",
-  "Medical Support",
-  "Other"
-];
 
 interface ServiceFormProps {
   initialData?: Service;
@@ -111,8 +100,8 @@ export default function ServiceForm({
         router.push("/");
         router.refresh();
       }
-    } catch (err: any) {
-      setError(err.message || "Something went wrong. Please try again.");
+    } catch (err: unknown) {
+      setError(err instanceof Error && err.message ? err.message : "Something went wrong. Please try again.");
       console.error(err);
     } finally {
       setIsSubmitting(false);
@@ -138,6 +127,7 @@ export default function ServiceForm({
                 type="text"
                 name="title"
                 id="title"
+                maxLength={LIMITS.title}
                 required
                 defaultValue={initialData?.title}
                 className="w-full rounded-md border border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary/70 outline-none transition-all"
@@ -152,6 +142,7 @@ export default function ServiceForm({
                 type="text"
                 name="organization"
                 id="organization"
+                maxLength={LIMITS.organization}
                 required
                 defaultValue={initialData?.organization}
                 className="w-full rounded-md border border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary/70 outline-none transition-all"
@@ -198,6 +189,7 @@ export default function ServiceForm({
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <input
                 type="tel"
+                maxLength={LIMITS.phone}
                 name="phone"
                 defaultValue={initialData?.phone}
                 className="w-full rounded-md border border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary/70 outline-none transition-all"
@@ -205,13 +197,16 @@ export default function ServiceForm({
               />
               <input
                 type="email"
+                maxLength={LIMITS.email}
                 name="email"
                 defaultValue={initialData?.email}
                 className="w-full rounded-md border border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary/70 outline-none transition-all"
                 placeholder="Email"
               />
               <input
-                type="url"
+                type="text"
+                inputMode="url"
+                maxLength={LIMITS.website}
                 name="website"
                 defaultValue={initialData?.website}
                 className="w-full rounded-md border border-gray-300 dark:border-white/20 bg-white dark:bg-white/5 px-3 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary/70 outline-none transition-all"

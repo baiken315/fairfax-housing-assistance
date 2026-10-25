@@ -69,7 +69,7 @@ export async function getServices(search?: string, category?: string): Promise<S
   const client = await pool.connect();
   try {
     let query = 'SELECT * FROM services WHERE 1=1';
-    const params: any[] = [];
+    const params: string[] = [];
     let paramCount = 1;
 
     if (search) {

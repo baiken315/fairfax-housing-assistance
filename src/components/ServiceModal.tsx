@@ -19,14 +19,18 @@ export default function ServiceModal({ service, isOpen, onClose }: ServiceModalP
   const [isDeleting, setIsDeleting] = useState(false);
   const [isDeleteSubmitting, setIsDeleteSubmitting] = useState(false);
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
+  // Reset edit/delete state when the modal closes (adjusting state during render, not in an effect)
+  const [wasOpen, setWasOpen] = useState(isOpen);
+  if (wasOpen !== isOpen) {
+    setWasOpen(isOpen);
+    if (!isOpen) {
       setIsEditing(false);
       setIsDeleting(false);
     }
+  }
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : 'unset';
     return () => {
       document.body.style.overflow = 'unset';
     };

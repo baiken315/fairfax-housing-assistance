@@ -25,10 +25,11 @@ async function migrate() {
     console.log('Applying schema...');
     await client.query(schema);
     
-    console.log('Migration successful! Table created.');
+    console.log('Schema applied (existing data is left untouched).');
     client.release();
   } catch (err) {
     console.error('Migration failed:', err);
+    process.exitCode = 1;
   } finally {
     await pool.end();
   }
